@@ -1,21 +1,43 @@
 import React from 'react';
 
-export const Results = ({ newGame, questions, submittedAnswers }) => {
+export const Results = ({ newGame, questions, submittedAnswers, answerHistory }) => {
   function onNewGame() {
     newGame();
   }
 
-  function renderAnswers() {
-    console.log(questions[0].question);
-    console.log(submittedAnswers);
-    // return questions.map((question) => {
-    //   return <div>{question === submittedAnswers ? 'correct' : 'false'}</div>;
-    // });
+  function renderAnswers(answers, index) {
+    return answers.map((answer) => {
+      return (
+        <li
+          style={{
+            color:
+              answer === questions[index].correct_answer
+                ? 'green'
+                : answer === submittedAnswers[index]
+                ? 'red'
+                : 'black',
+          }}
+        >
+          {answer}
+        </li>
+      );
+    });
+  }
+
+  function renderResults() {
+    return questions.map((question, index) => {
+      return (
+        <div>
+          <h4>{question.question}</h4>
+          <ul>{renderAnswers(answerHistory[index], index)}</ul>
+        </div>
+      );
+    });
   }
   return (
     <div>
-      <h4>{questions[0].question}</h4>
-      {renderAnswers()}
+      <h1>Correct: {}</h1>
+      {renderResults()}
       <button onClick={onNewGame}>New Game</button>
     </div>
   );
