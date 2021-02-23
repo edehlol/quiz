@@ -1,24 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { decode } from 'html-entities';
 
-export const Question = ({ question, nextQuestion, submitAnswer, setAnswerHistory }) => {
+export const Question = ({ question, nextQuestion, submitAnswer }) => {
   const [selectedAnswer, setSelectedAnswer] = useState(null);
-  const [answers, setAnswers] = useState(null);
-
-  useEffect(() => {
-    function createAnswers() {
-      return question.incorrect_answers
-        .concat(question.correct_answer)
-        .sort(() => Math.random() - 0.5);
-    }
-    setAnswers(createAnswers());
-  }, [question]);
-
-  useEffect(() => {
-    if (answers) {
-      setAnswerHistory((answerHistory) => [...answerHistory, answers]);
-    }
-  }, [answers, setAnswerHistory]);
 
   function onNextQuestionClick() {
     submitAnswer(selectedAnswer);
@@ -30,7 +14,7 @@ export const Question = ({ question, nextQuestion, submitAnswer, setAnswerHistor
   }
 
   function renderAnswers() {
-    return answers.map((answer, index) => {
+    return question.allAnswers.map((answer, index) => {
       return (
         <div key={index}>
           <input
@@ -46,15 +30,11 @@ export const Question = ({ question, nextQuestion, submitAnswer, setAnswerHistor
       );
     });
   }
-  if (answers) {
-    return (
-      <div>
-        <h4>{decode(question.question)}</h4>
-        <form>{renderAnswers()}</form>
-        <button onClick={onNextQuestionClick}>Next</button>
-      </div>
-    );
-  } else {
-    return <div></div>;
-  }
+  return (
+    <div>
+      <h4>{decode(question.question)}</h4>
+      <form>{renderAnswers()}</form>
+      <button onClick={onNextQuestionClick}>Next</button>
+    </div>
+  );
 };
