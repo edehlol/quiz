@@ -1,7 +1,7 @@
 import { decode } from 'html-entities';
 
 async function fetchQuestions() {
-  const response = await fetch('https://opentdb.com/api.php?amount=5').then((response) =>
+  const response = await fetch('https://opentdb.com/api.php?amount=10').then((response) =>
     response.json()
   );
   return response.results;

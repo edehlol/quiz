@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
-import styled from 'styled-components';
+import styled, { keyframes, css } from 'styled-components';
 import { decode } from 'html-entities';
 import { AnswerList } from './AnswerList';
 import { NavigateNext } from '@styled-icons/material-outlined/';
+import { Button } from './Button';
 
 const Container = styled.div`
   display: flex;
@@ -10,18 +11,27 @@ const Container = styled.div`
   flex-direction: column;
   align-items: center;
 `;
-const Button = styled.button`
-  background: ${'#e0e0e0'};
-  border: none;
-  border-radius: 8px;
-  padding: 1em;
-  margin-bottom: 2em;
-  width: 15em;
-  font-size: 1rem;
-  font-family: 'Source Sans Pro', sans-serif;
-  &:focus {
-    outline: none;
+
+const shake = keyframes`
+    10%, 90% {
+    transform: translate3d(-1px, 0, 0);
   }
+  
+  20%, 80% {
+    transform: translate3d(2px, 0, 0);
+  }
+
+  30%, 50%, 70% {
+    transform: translate3d(-4px, 0, 0);
+  }
+
+  40%, 60% {
+    transform: translate3d(4px, 0, 0);
+  }
+`;
+const shakeMixin = css`
+  animation: ${(props) =>
+    props.selected ? `${shake} 0.82s cubic-bezier(0.36, 0.07, 0.19, 0.97) both` : 'none'};
 `;
 const NextBtn = styled(Button)`
   background: #2f80ed;
@@ -32,8 +42,16 @@ const NextBtn = styled(Button)`
   justify-items: center;
   padding: 0.75em;
   grid-template-columns: 20% 60% 20%;
-  &:active {
+
+  &:hover {
     background: #2159a4;
+  }
+  &:focus {
+    animation: ${(props) =>
+      !props.selected &&
+      css`
+        ${shake} 0.82s cubic-bezier(0.36, 0.07, 0.19, 0.97) both
+      `};
   }
 `;
 const NextBtnText = styled.span`
@@ -55,6 +73,10 @@ const QuestionBtn = styled(Button)`
   color: ${(props) => (props.selected ? '#F2F2F2' : 'black')};
   font-weight: ${(props) => (props.selected ? '600' : '400')};
   box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 25%);
+  &:hover {
+    background: ${(props) => (props.selected ? '#4F4F4F' : '#bdbdbd')};
+    box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 50%);
+  }
 `;
 const Title = styled.h4`
   font-family: 'Montserrat', sans-serif;
@@ -85,7 +107,7 @@ export const Question = ({ question, nextQuestion, submitAnswer }) => {
         QuestionBtn={QuestionBtn}
       />
       <Divider></Divider>
-      <NextBtn onClick={onNextQuestionClick}>
+      <NextBtn onClick={onNextQuestionClick} selected={selectedAnswer !== null ? true : false}>
         <NextBtnText>Next</NextBtnText>
         <NextIcon />
       </NextBtn>

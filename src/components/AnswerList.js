@@ -11,7 +11,6 @@ const ListItem = styled.li`
 
 export const AnswerList = ({ question, setSelectedAnswer, selectedAnswer, QuestionBtn }) => {
   function renderAnswers() {
-    console.log(selectedAnswer);
     return question.allAnswers.map((answer, index) => {
       return (
         <ListItem key={index}>
