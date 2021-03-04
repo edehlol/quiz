@@ -1,9 +1,18 @@
 import React from 'react';
 import _ from 'lodash';
 
-export const Results = ({ newGame, questions, score }) => {
+export const Results = ({ newGame, questions }) => {
   function onNewGame() {
     newGame();
+  }
+  function getScore() {
+    let score = 0;
+    for (let i = 0; i < questions.length; i++) {
+      if (questions[i].guessedAnswer === questions[i].correct_answer) {
+        score += 1;
+      }
+    }
+    return score;
   }
 
   function renderAnswers(answers, index) {
@@ -39,7 +48,7 @@ export const Results = ({ newGame, questions, score }) => {
   return (
     <div>
       <h1>
-        Correct: {score}/{questions.length}
+        Correct: {getScore()}/{questions.length}
       </h1>
       {renderResults()}
       <button onClick={onNewGame}>New Game</button>
