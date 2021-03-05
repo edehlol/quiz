@@ -6,9 +6,7 @@ This is a browser based quiz game.
 
 Play it live here: ####
 
-# Developing
-
-## Built With
+# Built With
 
 Create-React-App / styled-components / open trivia database API / giphy API
 
