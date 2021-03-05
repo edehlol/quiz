@@ -58,8 +58,10 @@ const NewGameBtn = styled(Button)`
 `;
 
 export const Results = ({ newGame, questions }) => {
-  // const [score, setScore] = useState(getScorePercentage(questions));
   const [resultGif, setResultGif] = useState(null);
+  useEffect(() => {
+    fetchGif(getScorePercentage(questions)).then((response) => setResultGif(response));
+  }, [questions]);
 
   function onNewGame() {
     newGame();
@@ -134,7 +136,7 @@ export const Results = ({ newGame, questions }) => {
   return (
     <Container>
       <ResultMsg>Well Done!</ResultMsg>
-      <img src={resultGif} />
+      {resultGif && <img src={resultGif.images.downsized.url} alt={resultGif.title} />}
       <h1>
         Correct: {getScore(questions)}/{questions.length}
       </h1>
