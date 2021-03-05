@@ -29,10 +29,6 @@ const shake = keyframes`
     transform: translate3d(4px, 0, 0);
   }
 `;
-const shakeMixin = css`
-  animation: ${(props) =>
-    props.selected ? `${shake} 0.82s cubic-bezier(0.36, 0.07, 0.19, 0.97) both` : 'none'};
-`;
 const NextBtn = styled(Button)`
   background: #2f80ed;
   color: #f2f2f2;
@@ -42,16 +38,14 @@ const NextBtn = styled(Button)`
   justify-items: center;
   padding: 0.75em;
   grid-template-columns: 20% 60% 20%;
+  animation: ${(props) =>
+    props.shake &&
+    css`
+      ${shake} 0.82s cubic-bezier(0.36, 0.07, 0.19, 0.97) both
+    `};
 
   &:hover {
     background: #2159a4;
-  }
-  &:focus {
-    animation: ${(props) =>
-      !props.selected &&
-      css`
-        ${shake} 0.82s cubic-bezier(0.36, 0.07, 0.19, 0.97) both
-      `};
   }
 `;
 const NextBtnText = styled.span`
@@ -88,18 +82,27 @@ const Title = styled.h4`
 
 export const Question = ({ question, nextQuestion, submitAnswer }) => {
   const [selectedAnswer, setSelectedAnswer] = useState(null);
+  const [shake, setShake] = useState(false);
 
+  function shakeButton() {
+    setShake(true);
+    setTimeout(() => {
+      setShake(false);
+    }, 1000);
+  }
   function onNextQuestionClick() {
     if (selectedAnswer !== null) {
       submitAnswer(selectedAnswer);
       setSelectedAnswer(null);
       nextQuestion();
+    } else {
+      shakeButton();
     }
   }
   return (
     <Container>
       <Title>{decode(question.question)}</Title>
-      {/* <p>Category: {question.category}</p> */}
+      <p>Category: {question.category}</p>
       <AnswerList
         question={question}
         selectedAnswer={selectedAnswer}
@@ -107,7 +110,7 @@ export const Question = ({ question, nextQuestion, submitAnswer }) => {
         QuestionBtn={QuestionBtn}
       />
       <Divider></Divider>
-      <NextBtn onClick={onNextQuestionClick} selected={selectedAnswer !== null ? true : false}>
+      <NextBtn onClick={onNextQuestionClick} shake={shake}>
         <NextBtnText>Next</NextBtnText>
         <NextIcon />
       </NextBtn>
