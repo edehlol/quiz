@@ -9,14 +9,20 @@ const ListItem = styled.li`
   list-style-type: none;
 `;
 
-export const AnswerList = ({ question, setSelectedAnswer, selectedAnswer, QuestionBtn }) => {
+export const AnswerList = ({
+  question,
+  setSelectedAnswer,
+  selectedAnswer,
+  QuestionBtn,
+  selectAnswer,
+}) => {
   function renderAnswers() {
     return question.allAnswers.map((answer, index) => {
       return (
         <ListItem key={index}>
           <QuestionBtn
             selected={selectedAnswer === answer ? true : false}
-            onClick={() => setSelectedAnswer(answer)}
+            onClick={() => selectAnswer(answer)}
           >
             {answer}
           </QuestionBtn>

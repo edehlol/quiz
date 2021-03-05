@@ -58,13 +58,18 @@ const NextIcon = styled(NavigateNext)`
 `;
 
 const QuestionBtn = styled(Button)`
-  background: ${(props) => (props.selected ? '#4F4F4F' : '#e0e0e0')};
-  color: ${(props) => (props.selected ? '#F2F2F2' : 'black')};
-  font-weight: ${(props) => (props.selected ? '600' : '400')};
+  background: #e0e0e0;
+  color: black;
+  font-weight: 400;
   box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 25%);
   &:hover {
     background: ${(props) => (props.selected ? '#4F4F4F' : '#bdbdbd')};
     box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 50%);
+  }
+  &:active {
+    background: #4f4f4f;
+    color: #f2f2f2;
+    font-weight: 600;
   }
 `;
 const Title = styled.h4`
@@ -85,6 +90,12 @@ export const Question = ({ question, nextQuestion, submitAnswer }) => {
       setShake(false);
     }, 1000);
   }
+  // NEW
+  const onSelectAnswer = (answer) => {
+    submitAnswer(answer);
+    nextQuestion();
+  };
+  // OLD
   function onNextQuestionClick() {
     if (selectedAnswer !== null) {
       submitAnswer(selectedAnswer);
@@ -102,6 +113,7 @@ export const Question = ({ question, nextQuestion, submitAnswer }) => {
         question={question}
         selectedAnswer={selectedAnswer}
         setSelectedAnswer={setSelectedAnswer}
+        selectAnswer={onSelectAnswer}
         QuestionBtn={QuestionBtn}
       />
       <Divider></Divider>
