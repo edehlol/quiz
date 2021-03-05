@@ -1,4 +1,4 @@
-# Quiz Game
+# Quizzy
 
 This is a browser based quiz game.
 
