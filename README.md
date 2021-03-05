@@ -1,12 +1,12 @@
-# Quizzle
+# Quiz Game
 
 This is a browser based quiz game.
 
-# Live
+## Live
 
 Play it live here: ####
 
-# Built With
+## Built With
 
 Create-React-App / styled-components / open trivia database API / giphy API
 
