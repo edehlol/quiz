@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import getQuestions from '../api/trivia';
-import { Question } from './Question';
+import { Question } from './Question/';
 import { Results } from './Results';
 
 const App = () => {
