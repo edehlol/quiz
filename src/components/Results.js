@@ -1,10 +1,12 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import _ from 'lodash';
 import styled from 'styled-components';
 import { Button } from './Button';
 import { fetchGif } from '../api/giphy';
 import { CheckCircleFill } from '@styled-icons/bootstrap/';
 import { CircleWithCross } from '@styled-icons/entypo/';
+import { CircleWithPlus } from '@styled-icons/entypo/';
+import { Divider } from './Divider';
 
 const Container = styled.div`
   display: flex;
@@ -50,18 +52,40 @@ const IncorrectIcon = styled(CircleWithCross)`
   height: 1.5em;
   color: white;
 `;
+const NewGameIcon = styled(CircleWithPlus)`
+  height: 1.5em;
+  color: white;
+`;
 const NewGameBtn = styled(Button)`
+  display: inline-grid;
+  grid-template-columns: 80% 20%;
   width: 16em;
   background: #2f80ed;
   color: white;
   font-weight: 600;
+  &:hover {
+    background: #2159a4;
+  }
 `;
 
 export const Results = ({ newGame, questions }) => {
   const [resultGif, setResultGif] = useState(null);
+
+  const scoreResponse = useCallback((questions) => {
+    const badScore = ['Damn', "That's bad", 'Oh no', 'Try again'];
+    const goodScore = ['Well Done', "That's amazing!", 'You are great'];
+    const score = getScorePercentage(questions);
+
+    if (score < 50) {
+      return badScore[Math.floor(Math.random() * badScore.length)];
+    } else {
+      return goodScore[Math.floor(Math.random() * goodScore.length)];
+    }
+  }, []);
+
   useEffect(() => {
-    fetchGif(getScorePercentage(questions)).then((response) => setResultGif(response));
-  }, [questions]);
+    fetchGif(scoreResponse(questions)).then((response) => setResultGif(response));
+  }, [questions, scoreResponse]);
 
   function onNewGame() {
     newGame();
@@ -135,13 +159,17 @@ export const Results = ({ newGame, questions }) => {
   }
   return (
     <Container>
-      <ResultMsg>Well Done!</ResultMsg>
+      <ResultMsg>{scoreResponse(questions)}</ResultMsg>
       {resultGif && <img src={resultGif.images.downsized.url} alt={resultGif.title} />}
       <h1>
         Correct: {getScore(questions)}/{questions.length}
       </h1>
       {renderResults()}
-      <NewGameBtn onClick={onNewGame}>New Game</NewGameBtn>
+      <Divider />
+      <NewGameBtn onClick={onNewGame}>
+        New Game
+        <NewGameIcon />
+      </NewGameBtn>
     </Container>
   );
 };

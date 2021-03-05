@@ -4,6 +4,7 @@ import { decode } from 'html-entities';
 import { AnswerList } from './AnswerList';
 import { NavigateNext } from '@styled-icons/material-outlined/';
 import { Button } from './Button';
+import { Divider } from './Divider';
 
 const Container = styled.div`
   display: flex;
@@ -54,12 +55,6 @@ const NextBtnText = styled.span`
 const NextIcon = styled(NavigateNext)`
   height: 2rem;
   grid-column: 3;
-`;
-const Divider = styled.div`
-  height: 2px;
-  background: #e0e0e0;
-  width: 24em;
-  margin-bottom: 2em;
 `;
 
 const QuestionBtn = styled(Button)`
