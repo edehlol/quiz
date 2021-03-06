@@ -55,6 +55,7 @@ const App = () => {
           {currentQuestion && (
             <Question
               question={currentQuestion}
+              amountOfQuestions={questions.length}
               nextQuestion={nextQuestion}
               submitAnswer={submitAnswer}
             />

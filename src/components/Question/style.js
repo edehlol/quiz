@@ -25,6 +25,12 @@ export const Title = styled.h4`
   margin-bottom: 2em;
   text-align: left;
 `;
+export const Index = styled.h4`
+  font-size: 1.5rem;
+  font-weight: 600;
+  text-align: center;
+  margin-bottom: 0;
+`;
 
 // AnswerList
 
