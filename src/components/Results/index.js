@@ -1,74 +1,20 @@
 import React, { useEffect, useState, useCallback } from 'react';
+import { fetchGif } from '../../api/giphy';
 import _ from 'lodash';
-import styled from 'styled-components';
-import { Button } from './Button';
-import { fetchGif } from '../api/giphy';
-import { CheckCircleFill } from '@styled-icons/bootstrap/';
-import { CircleWithCross } from '@styled-icons/entypo/';
-import { CircleWithPlus } from '@styled-icons/entypo/';
-import { Divider } from './Divider';
-
-const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 2em;
-`;
-const QuestionTitle = styled.h4`
-  color: ${({ correctGuess }) => (correctGuess ? '#27AE60' : '#EB5757')};
-`;
-const ResultMsg = styled.h4`
-  font-size: 1.5rem;
-  font-weight: 600;
-`;
-const List = styled.ul`
-  list-style-type: none;
-  padding-left: 0;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-`;
-const ListItem = styled.li`
-  display: inline-grid;
-  width: 16em;
-  grid-template-columns: 80% 20%;
-  margin: 1em;
-  padding: 1em;
-  border-radius: 8px;
-  background: ${({ correctGuessBg, incorrectGuessBg }) =>
-    correctGuessBg ? '#27AE60' : incorrectGuessBg ? '#EB5757' : '#E0E0E0'};
-  color: ${({ correctGuessBg, incorrectGuessBg, correctAnswer }) =>
-    correctGuessBg || incorrectGuessBg ? '#FFFFFF' : correctAnswer ? '#27AE60' : '#000000'};
-  font-weight: ${({ correctGuessBg, incorrectGuessBg, correctAnswer }) =>
-    correctGuessBg || incorrectGuessBg || correctAnswer ? '600' : '400'};
-  box-sizing: border-box;
-  border: ${({ correctAnswer }) => (correctAnswer ? '2px solid #27AE60' : 'none')};
-`;
-const CorrectIcon = styled(CheckCircleFill)`
-  height: 1.5em;
-  color: white;
-`;
-const IncorrectIcon = styled(CircleWithCross)`
-  height: 1.5em;
-  color: white;
-`;
-const NewGameIcon = styled(CircleWithPlus)`
-  height: 1.5em;
-  color: white;
-`;
-const NewGameBtn = styled(Button)`
-  display: inline-grid;
-  grid-template-columns: 80% 20%;
-  width: 16em;
-  background: #2f80ed;
-  color: white;
-  font-weight: 600;
-  &:hover {
-    background: #2159a4;
-  }
-`;
-
-export const Results = ({ newGame, questions }) => {
+import {
+  ListItem,
+  CorrectIcon,
+  IncorrectIcon,
+  QuestionTitle,
+  List,
+  ResultMsg,
+  NewGameBtn,
+  NewGameIcon,
+  Gif,
+} from './style';
+import { Divider } from '../Divider';
+import { Container } from '../Container';
+export const Results = ({ newGame, questions, setGameStarted }) => {
   const [resultGif, setResultGif] = useState(null);
 
   const scoreResponse = useCallback((questions) => {
@@ -88,7 +34,8 @@ export const Results = ({ newGame, questions }) => {
   }, [questions, scoreResponse]);
 
   function onNewGame() {
-    newGame();
+    // newGame();
+    setGameStarted(false);
   }
   function getScore(questions) {
     if (!questions) {
@@ -160,7 +107,7 @@ export const Results = ({ newGame, questions }) => {
   return (
     <Container>
       <ResultMsg>{scoreResponse(questions)}</ResultMsg>
-      {resultGif && <img src={resultGif.images.downsized.url} alt={resultGif.title} />}
+      {resultGif && <Gif src={resultGif.images.downsized.url} alt={resultGif.title} />}
       <h1>
         Correct: {getScore(questions)}/{questions.length}
       </h1>

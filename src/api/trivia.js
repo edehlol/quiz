@@ -1,9 +1,10 @@
 import { decode } from 'html-entities';
 
-async function fetchQuestions() {
-  const response = await fetch('https://opentdb.com/api.php?amount=10').then((response) =>
-    response.json()
-  );
+async function fetchQuestions(settings) {
+  const response = await fetch(
+    `https://opentdb.com/api.php?amount=${settings.numberOfQuestions}&difficulty=${settings.difficulty}&category=${settings.category}`
+  ).then((response) => response.json());
+  console.log(response.results);
   return response.results;
 }
 
@@ -12,10 +13,11 @@ function combineAnswers(correct, incorrect) {
 }
 
 function formatQuestions(fetchedQuestions) {
-  return fetchedQuestions.map((question) => {
+  return fetchedQuestions.map((question, index) => {
     const correct_answer = decode(question.correct_answer);
     const incorrect_answers = question.incorrect_answers.map((answer) => decode(answer));
     return {
+      id: index,
       question: decode(question.question),
       category: question.category,
       incorrect_answers: incorrect_answers,
@@ -26,9 +28,9 @@ function formatQuestions(fetchedQuestions) {
   });
 }
 
-async function getQuestions() {
-  const questions = await fetchQuestions().then((response) => formatQuestions(response));
-  return formatQuestions(questions);
+async function getQuestions(settings) {
+  const questions = await fetchQuestions(settings).then((response) => formatQuestions(response));
+  return questions;
 }
 
 export default getQuestions;

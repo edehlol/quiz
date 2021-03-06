@@ -1,30 +1,28 @@
 import React, { useEffect, useState } from 'react';
 import getQuestions from '../api/trivia';
+import { GameMenu } from './GameMenu/';
 import { Question } from './Question/';
-import { Results } from './Results';
+import { Results } from './Results/';
 
 const App = () => {
   const [questions, setQuestions] = useState(null);
   const [currentQuestion, setCurrentQuestion] = useState(null);
+  const [gameStarted, setGameStarted] = useState(false);
   const [gameCompleted, setGameCompleted] = useState(false);
-
-  useEffect(() => {
-    getQuestions().then((response) => {
-      setQuestions(response);
-      setFirstQuestion(response);
-    });
-  }, []);
 
   function setFirstQuestion(questionArray) {
     setCurrentQuestion(questionArray[0]);
   }
 
   function nextQuestion() {
-    if (questions.findIndex((question) => question === currentQuestion) === questions.length - 1) {
+    if (
+      questions.findIndex((question) => question.id === currentQuestion.id) ===
+      questions.length - 1
+    ) {
       setGameCompleted(true);
     } else {
       setCurrentQuestion(
-        questions[questions.findIndex((question) => question === currentQuestion) + 1]
+        questions[questions.findIndex((question) => question.id === currentQuestion.id) + 1]
       );
     }
   }
@@ -37,28 +35,33 @@ const App = () => {
       })
     );
   }
-  function newGame() {
-    getQuestions().then((response) => {
+
+  function newGame(settings) {
+    getQuestions(settings).then((response) => {
       setQuestions(response);
+      setGameStarted(true);
       setFirstQuestion(response);
     });
     setGameCompleted(false);
   }
-
-  if (gameCompleted) {
-    return <Results newGame={newGame} questions={questions} />;
+  if (!gameStarted) {
+    return <GameMenu startGame={newGame} />;
   } else {
-    return (
-      <div>
-        {currentQuestion && (
-          <Question
-            question={currentQuestion}
-            nextQuestion={nextQuestion}
-            submitAnswer={submitAnswer}
-          />
-        )}
-      </div>
-    );
+    if (gameCompleted) {
+      return <Results newGame={newGame} questions={questions} setGameStarted={setGameStarted} />;
+    } else {
+      return (
+        <div>
+          {currentQuestion && (
+            <Question
+              question={currentQuestion}
+              nextQuestion={nextQuestion}
+              submitAnswer={submitAnswer}
+            />
+          )}
+        </div>
+      );
+    }
   }
 };
 

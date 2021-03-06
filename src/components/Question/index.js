@@ -1,5 +1,6 @@
 import React from 'react';
-import { Container, Title, QuestionBtn } from './style';
+import { Title, QuestionBtn } from './style';
+import { Container } from '../Container';
 import { decode } from 'html-entities';
 import { AnswerList } from './AnswerList';
 
