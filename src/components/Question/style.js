@@ -30,6 +30,7 @@ export const Index = styled.h4`
   font-weight: 600;
   text-align: center;
   margin-bottom: 0;
+  margin-top: 0;
 `;
 
 // AnswerList

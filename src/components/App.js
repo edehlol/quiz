@@ -1,6 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import getQuestions from '../api/trivia';
-import { Header } from './Header';
+import { ContentContainer } from './Container';
+import { Header, Logo } from './Header';
+import { Footer } from './Footer/';
 import { GameMenu } from './GameMenu/';
 import { Question } from './Question/';
 import { Results } from './Results/';
@@ -45,27 +47,37 @@ const App = () => {
     });
     setGameCompleted(false);
   }
-  if (!gameStarted) {
-    return <GameMenu startGame={newGame} />;
-  } else {
-    if (gameCompleted) {
-      return <Results newGame={newGame} questions={questions} setGameStarted={setGameStarted} />;
+  const renderView = () => {
+    if (!gameStarted) {
+      return <GameMenu startGame={newGame} />;
     } else {
-      return (
-        <div>
-          <Header>Quizzly</Header>
-          {currentQuestion && (
-            <Question
-              question={currentQuestion}
-              amountOfQuestions={questions.length}
-              nextQuestion={nextQuestion}
-              submitAnswer={submitAnswer}
-            />
-          )}
-        </div>
-      );
+      if (gameCompleted) {
+        return <Results newGame={newGame} questions={questions} setGameStarted={setGameStarted} />;
+      } else {
+        return (
+          <div>
+            {currentQuestion && (
+              <Question
+                question={currentQuestion}
+                amountOfQuestions={questions.length}
+                nextQuestion={nextQuestion}
+                submitAnswer={submitAnswer}
+              />
+            )}
+          </div>
+        );
+      }
     }
-  }
+  };
+  return (
+    <ContentContainer>
+      <Header>
+        <Logo>Quizzly</Logo>
+      </Header>
+      {renderView()}
+      <Footer />
+    </ContentContainer>
+  );
 };
 
 export default App;

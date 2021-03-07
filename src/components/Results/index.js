@@ -14,7 +14,7 @@ import {
 } from './style';
 import { Divider } from '../Divider';
 import { Container } from '../Container';
-export const Results = ({ newGame, questions, setGameStarted }) => {
+export const Results = ({ questions, setGameStarted }) => {
   const [resultGif, setResultGif] = useState(null);
 
   const scoreResponse = useCallback((questions) => {
@@ -34,7 +34,6 @@ export const Results = ({ newGame, questions, setGameStarted }) => {
   }, [questions, scoreResponse]);
 
   function onNewGame() {
-    // newGame();
     setGameStarted(false);
   }
   function getScore(questions) {
@@ -108,9 +107,9 @@ export const Results = ({ newGame, questions, setGameStarted }) => {
     <Container>
       <ResultMsg>{scoreResponse(questions)}</ResultMsg>
       {resultGif && <Gif src={resultGif.images.downsized.url} alt={resultGif.title} />}
-      <h1>
+      <h2>
         Correct: {getScore(questions)}/{questions.length}
-      </h1>
+      </h2>
       {renderResults()}
       <Divider />
       <NewGameBtn onClick={onNewGame}>

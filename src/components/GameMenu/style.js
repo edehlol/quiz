@@ -6,6 +6,9 @@ export const Container = styled.div`
   flex-direction: column;
   align-items: center;
 `;
+export const Title = styled.h2`
+  margin-top: 0;
+`;
 
 export const Form = styled.form`
   padding: 2em;

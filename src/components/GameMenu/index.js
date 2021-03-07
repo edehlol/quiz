@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Form, StartGameBtn, Select, Label } from './style';
+import { Form, StartGameBtn, Select, Label, Title } from './style';
 import { Container } from '../Container';
 
 export const GameMenu = ({ startGame }) => {
@@ -25,7 +25,7 @@ export const GameMenu = ({ startGame }) => {
   };
   return (
     <Container>
-      <h2>Settings</h2>
+      <Title>Settings</Title>
       <Form onSubmit={onFormSubmit}>
         {/* <Label>Number of Questions</Label>
         <Select value={settings.numberOfQuestions} onChange={onSelectNumberOfQuestions}>

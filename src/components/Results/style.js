@@ -53,8 +53,10 @@ export const NewGameIcon = styled(CircleWithPlus)`
 `;
 export const NewGameBtn = styled(Button)`
   display: inline-grid;
+  align-items: center;
   grid-template-columns: 80% 20%;
   width: 16em;
+  height: 3.5em;
   background: #2f80ed;
   color: white;
   font-weight: 600;
