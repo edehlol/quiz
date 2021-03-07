@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import getQuestions from '../api/trivia';
+import { Header } from './Header';
 import { GameMenu } from './GameMenu/';
 import { Question } from './Question/';
 import { Results } from './Results/';
@@ -52,6 +53,7 @@ const App = () => {
     } else {
       return (
         <div>
+          <Header>Quizzly</Header>
           {currentQuestion && (
             <Question
               question={currentQuestion}
